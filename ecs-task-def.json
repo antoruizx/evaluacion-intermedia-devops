@@ -1,0 +1,17 @@
+{
+  "family": "my-api-task",
+  "containerDefinitions": [
+    {
+      "name": "my-api",
+      "image": "897729121561.dkr.ecr.sa-east-1.amazonaws.com/my-api:latest",
+      "memory": 512,
+      "cpu": 256,
+      "portMappings": [
+        {
+          "containerPort": 80,
+          "hostPort": 80
+        }
+      ]
+    }
+  ]
+}
