@@ -1,0 +1,35 @@
+name: Deploy to Amazon ECS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Login to Amazon ECR
+        id: ecr-login
+        uses: aws-actions/amazon-ecr-login@v1
+
+      - name: Build Docker image
+        run: |
+          docker build -t my-api:latest .
+          docker tag my-api:latest ${{ steps.ecr-login.outputs.registry }}/my-api:latest
+
+      - name: Push to Amazon ECR
+        run: |
+          docker push ${{ steps.ecr-login.outputs.registry }}/my-api:latest
+
+      - name: Deploy to Amazon ECS
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ecs-task-def.json
+          service: my-api-service
+          cluster: my-ecs-cluster
+          wait-for-service-stability: true
