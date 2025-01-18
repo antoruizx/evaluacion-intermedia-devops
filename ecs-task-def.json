@@ -1,6 +1,7 @@
 {
   "family": "my-api-task",
   "taskRoleArn": "arn:aws:iam::897729121561:role/Rol-ECS",
+  "executionRoleArn": "arn:aws:iam::897729121561:role/Rol-ECS",
   "containerDefinitions": [
     {
       "name": "my-api",
